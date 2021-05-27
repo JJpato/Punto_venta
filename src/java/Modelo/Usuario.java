@@ -1,15 +1,23 @@
-
 package Modelo;
 
 public class Usuario {
-    private int id=0;
-    private String nombre="";
-    private String apellido="";
-    private String direccion="";
-    private String telefono="";
-    private String correo="";
-    private String contrasena="";
-    private int tipoUsuario=0;
+
+    private int id = 0;
+    private String nombre = "";
+    private String apellido = "";
+    private String direccion = "";
+    private String telefono = "";
+    private String correo = "";
+    private String contrasena = "";
+    private int tipoUsuario = 0;
+
+    public Usuario() {
+    }
+
+    public Usuario(String correo, String contrasena) {
+        this.correo = correo;
+        this.contrasena = contrasena;
+    }
 
     public Usuario(int id, String nombre, String apellido, String direccion, String telefono, String correo, String contrasena, int tipoUsuario) {
         this.id = id;
@@ -85,5 +93,5 @@ public class Usuario {
     public void setTipoUsuario(int tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
-        
+
 }
