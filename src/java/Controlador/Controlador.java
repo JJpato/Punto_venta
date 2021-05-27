@@ -40,7 +40,7 @@ public class Controlador extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Controlador</title>");            
+            out.println("<title>Servlet Controlador</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Controlador at " + request.getContextPath() + "</h1>");
@@ -61,23 +61,28 @@ public class Controlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String accion = request.getParameter("accion");
-        if(accion!=null){
-            switch(accion){
-                case "editar":
-                    //editarAlumnos(request, response);
+        String pagina = request.getParameter("pagina");
+        if (pagina != null) {
+            switch (pagina) {
+                case "Ventas":
+                    Inicio(request, response);
                     break;
-                case "eliminar":
-                    //eliminarAlumnos(request, response);
+                case "Usuarios":
+                    Usuarios(request, response);
+                    break;
+                case "Productos":
+                    Productos(request, response);
+                    break;
+                case "Categorias":
+                    Categorias(request, response);
                     break;
                 default:
                     Inicio(request, response);
             }
-        }
-        else{
+        } else {
             Inicio(request, response);
         }
-       
+
     }
 
     /**
@@ -91,24 +96,29 @@ public class Controlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String accion = request.getParameter("accion");
-        if(accion!=null){
-            switch(accion){
-                case "insertar":
-                    //insertarAlumno(request, response);
+        String pagina = request.getParameter("pagina");
+        if (pagina != null) {
+            switch (pagina) {
+                case "Ventas":
+                    Inicio(request, response);
                     break;
-                case "modificar":
-                    //actualizarAlumno(request, response);
-                    break;                 
+                case "Usuarios":
+                    Usuarios(request, response);
+                    break;
+                case "Productos":
+                    Productos(request, response);
+                    break;
+                case "Categorias":
+                    Categorias(request, response);
+                    break;
                 default:
                     Inicio(request, response);
             }
-        }
-        else{
+        } else {
             Inicio(request, response);
         }
     }
-    
+
     private void insertarAlumno(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         /*
@@ -123,23 +133,64 @@ public class Controlador extends HttpServlet {
         
         //redirigimos a la accion por default
         consultarAlumnos(request, response);
-        */
+         */
     }
-    
-    private void Inicio(HttpServletRequest request, HttpServletResponse response)
+
+    private void Usuarios(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         UsuarioDAO dao = new UsuarioDAO();
         List<Usuario> usuarios = dao.listar();
+        /*
         //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
-        HttpSession sesion= request.getSession();
+        HttpSession sesion = (HttpSession) request.getSession();
+        sesion.setAttribute("usuarios", usuarios);
+        sesion.setAttribute("usuariosTotales", usuarios.size());
+        //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
+        response.sendRedirect("Usuarios.jsp");
+         */
+    }
+    
+    private void Categorias(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        CategoriaDAO dao = new CategoriaDAO();
+        List<Categoria> categorias = dao.listar();
+        
+        //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("categorias", categorias);
+        sesion.setAttribute("categoriasTotales", categorias.size());
+        response.sendRedirect("categorias.jsp");
+    }
+    
+    private void Productos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ProductoDAO dao = new ProductoDAO();
+        List<Producto> productos = dao.listar();
+
+        //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("productos", productos);
+        sesion.setAttribute("productosTotales", productos.size());
+        //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
+        response.sendRedirect("productos.jsp");
+
+    }
+
+    private void Inicio(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        UsuarioDAO dao = new UsuarioDAO();
+        List<Usuario> usuarios = dao.listar();
+
+        //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
+        HttpSession sesion = (HttpSession) request.getSession();
         sesion.setAttribute("usuarios", usuarios);
         sesion.setAttribute("usuariosTotales", usuarios.size());
         //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
         response.sendRedirect("Inicio.jsp");
-        
-    }    
-    
+
+    }
+
     private void editarAlumnos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //recuperra el id
@@ -152,9 +203,9 @@ public class Controlador extends HttpServlet {
         request.setAttribute("alumno", alumno);
         String jspEditar = "/WEB-INF/paginas/comunes/editarAlumno.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);
-        */
+         */
     }
-    
+
     private void actualizarAlumno(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         /*
@@ -171,9 +222,9 @@ public class Controlador extends HttpServlet {
         
         //redirigimos a la accion por default
         consultarAlumnos(request, response);
-        */
+         */
     }
-    
+
     private void eliminarAlumnos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         /*
@@ -186,8 +237,9 @@ public class Controlador extends HttpServlet {
         System.out.println("registros eliminados = " + registrosModificados);
         
         consultarAlumnos(request, response);
-        */
+         */
     }
+
     /**
      * Returns a short description of the servlet.
      *

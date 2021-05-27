@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h1>
-                    <i class="fas fa-cog"></i> Punto de venta
+                    <i class="fas fa-store"></i> Punto de venta
                 </h1>
             </div>
         </div>

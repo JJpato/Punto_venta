@@ -5,10 +5,15 @@
  */
 package Controlador;
 
+import Modelo.Categoria;
+import Modelo.CategoriaDAO;
+import Modelo.Producto;
+import Modelo.ProductoDAO;
 import Modelo.Usuario;
 import Modelo.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,31 +42,20 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            
+            List<Categoria> categorias;
+            CategoriaDAO dao = new CategoriaDAO();
+            categorias=dao.listar();
+            
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Si</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Existe crack</h1>");
+            out.println("<h1>" + categorias.get(0).getId() + "</h1>");
             out.println("<h2></h2>");
             out.println("<h2></h2>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-    protected void noexiste(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>No</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>NO Existe</h1>");
             out.println("</body>");
             out.println("</html>");
         }

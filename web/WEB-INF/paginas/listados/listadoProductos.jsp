@@ -1,36 +1,38 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<section id="usuarios">
+<section id="productos">
     <div class="container">
         <div class="row">
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Listado de Usuarios</h4>
+                        <h4>Listado de Productos</h4>
                     </div>
                     <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
-                                <th>Direccion</th>
+                                <th>Descripcion</th>
                                 <th></th>                   
                             </tr>
                         </thead>
                         <tbody>
-                            <!--Iteramos cada elemento de la lista -->
-                            <c:forEach var="usuarios" items="${usuarios}">
+
+                            <!--Iteramos cada elemento de la lista de productos -->
+                            <c:forEach var="productos" items="${productos}">
                                 <tr>
-                                    <td>${usuarios.getId()}</td>
-                                    <td>${usuarios.getNombre()}</td> 
-                                    <td>${usuarios.getDireccion()}</td>
+                                    <td>${productos.getId()}</td>
+                                    <td>${productos.getNombre()}</td> 
+                                    <td>${productos.getDescripcion()}</td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/Controlador?accion=editar&nc=${alumnos.getNc()}"
+                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Productos&accion=editar&nc=${productos.getId()}"
                                            class="btn btn-primary btn-block" >
                                             <i class="fas fa-angle-double-right"></i>Editar
                                         </a>
-                                        <a href="${pageContext.request.contextPath}/Controlador?accion=eliminar&nc=${alumnos.getNc()}" class="btn btn-secondary btn-block">
+                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Productos&accion=eliminar&nc=${productos.getId()}" 
+                                           class="btn btn-secondary btn-block">
                                             <i class="fas fa-trash"></i> Eliminar
                                         </a>
                                     </td>
@@ -45,9 +47,9 @@
             <div class="col md-3">
                 <div class="card text-center bg-success text-white mb-3">
                     <div class="card-body">
-                        <h3>Usuarios totales</h3>
+                        <h3>Productos Totales totales</h3>
                         <h4 class="display-4">
-                            <i class="fas fa-users"></i> ${usuariosTotales}
+                            <i class="fas fa-users"></i> ${productosTotales}
                         </h4>
                     </div>
                 </div>
@@ -57,5 +59,3 @@
     </div>
 </section>
 
-<!-- Modal agregar alumno-->
-<jsp:include page="/WEB-INF/paginas/comunes/agregarAlumno.jsp"/>
