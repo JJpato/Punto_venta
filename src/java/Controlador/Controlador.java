@@ -119,61 +119,339 @@ public class Controlador extends HttpServlet {
         }
     }
 
-    private void insertarAlumno(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        /*
-        String nc = request.getParameter("nc");
-        String nombre = request.getParameter("nombre");
-        String direccion = request.getParameter("direccion");
-        
-        Alumno alum = new Alumno(Integer.parseInt(nc), nombre, direccion);
-        
-        AlumnoDAO dao = new AlumnoDAO();
-        int registrosModificados = dao.insertar(alum);
-        
-        //redirigimos a la accion por default
-        consultarAlumnos(request, response);
-         */
-    }
-
     private void Usuarios(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UsuarioDAO dao = new UsuarioDAO();
-        List<Usuario> usuarios = dao.listar();
 
-        //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
-        HttpSession sesion = (HttpSession) request.getSession();
-        sesion.setAttribute("usuarios", usuarios);
-        sesion.setAttribute("usuariosTotales", usuarios.size());
-        response.sendRedirect("usuarios.jsp");
-         
+        String accion = request.getParameter("accion");
+
+        if (accion != null) {
+            switch (accion) {
+                case "insertar":
+                    insertarUsuario(request, response);
+                    break;
+                case "editar":
+                    editarUsuario(request, response);
+                    break;
+                case "modificar":
+                    actualizarUsuario(request, response);
+                    break;
+                case "eliminar":
+                    eliminarUsuario(request, response);
+                    break;
+                default:
+                    listarUsuarios(request, response);
+            }
+        } else {
+            listarUsuarios(request, response);
+        }
     }
-    
+
+    private void insertarUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String nc = request.getParameter("id");
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String direccion = request.getParameter("direccion");
+        String telefono = request.getParameter("telefono");
+        String correo = request.getParameter("correo");
+        String contrasena = request.getParameter("contrasena");
+        String tipou = request.getParameter("tipou");
+
+        Usuario usuario = new Usuario(Integer.parseInt(nc), nombre, apellido, direccion,
+                telefono, correo, contrasena, Integer.parseInt(tipou));
+
+        UsuarioDAO dao = new UsuarioDAO();
+
+        int registrosModificados = dao.insertar(usuario);
+
+        //redirigimos
+        listarUsuarios(request, response);
+    }
+
+    private void listarUsuarios(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession();
+        UsuarioDAO dao = new UsuarioDAO();
+
+        List<Usuario> usuarios = dao.listar();
+        sesion.setAttribute("usuarios", usuarios);
+
+        response.sendRedirect("usuarios.jsp");
+    }
+
+    private void editarUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //recuperra el id
+        int id = Integer.parseInt(request.getParameter("nc"));
+
+        //recuperar datos de la base de datos
+        UsuarioDAO dao = new UsuarioDAO();
+        Usuario usuario = dao.encontrar(id);
+
+        request.setAttribute("usuario", usuario);
+        String jspEditar = "/WEB-INF/paginas/editar/editarUsuario.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
+
+    }
+
+    private void actualizarUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String nc = request.getParameter("id");
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String direccion = request.getParameter("direccion");
+        String telefono = request.getParameter("telefono");
+        String correo = request.getParameter("correo");
+        String contrasena = request.getParameter("contrasena");
+        String tipou = request.getParameter("tipou");
+
+        Usuario usuario = new Usuario(Integer.parseInt(nc), nombre, apellido, direccion,
+                telefono, correo, contrasena, Integer.parseInt(tipou));
+
+        UsuarioDAO dao = new UsuarioDAO();
+
+        int registrosModificados = dao.actualizar(usuario);
+
+        System.out.println("registros modificados = " + registrosModificados);
+
+        //redirigimos
+        listarUsuarios(request, response);
+    }
+
+    private void eliminarUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        //recuperra el id 
+        int id = Integer.parseInt(request.getParameter("nc"));
+
+        UsuarioDAO dao = new UsuarioDAO();
+        int registrosModificados = dao.eliminar(id);
+
+        System.out.println("registros eliminados = " + registrosModificados);
+
+        listarUsuarios(request, response);
+    }
+
     private void Categorias(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String accion = request.getParameter("accion");
+
+        if (accion != null) {
+            switch (accion) {
+                case "insertar":
+                    insertarCategoria(request, response);
+                    break;
+                case "editar":
+                    editarCategoria(request, response);
+                    break;
+                case "modificar":
+                    actualizarCategoria(request, response);
+                    break;
+                case "eliminar":
+                    eliminarCategoria(request, response);
+                    break;
+                default:
+                    listarCategorias(request, response);
+            }
+        } else {
+            listarCategorias(request, response);
+        }
+    }
+
+    private void insertarCategoria(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String nc = request.getParameter("id");
+        String nombre = request.getParameter("nombre");
+        String descripcion = request.getParameter("descripcion");
+
+        Categoria cat = new Categoria(Integer.parseInt(nc), nombre, descripcion);
+
         CategoriaDAO dao = new CategoriaDAO();
-        List<Categoria> categorias = dao.listar();
-        
-        //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
+
+        int registrosModificados = dao.insertar(cat);
+
+        //redirigimos
+        listarCategorias(request, response);
+    }
+
+    private void listarCategorias(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         HttpSession sesion = request.getSession();
+        CategoriaDAO dao = new CategoriaDAO();
+
+        List<Categoria> categorias = dao.listar();
         sesion.setAttribute("categorias", categorias);
         sesion.setAttribute("categoriasTotales", categorias.size());
+
         response.sendRedirect("categorias.jsp");
+
     }
-    
+
+    private void editarCategoria(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //recuperra el id
+        int id = Integer.parseInt(request.getParameter("nc"));
+
+        //recuperar datos de la base de datos
+        CategoriaDAO dao = new CategoriaDAO();
+        Categoria cat = dao.encontrar(id);
+
+        request.setAttribute("categoria", cat);
+        String jspEditar = "/WEB-INF/paginas/editar/editarCategoria.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
+
+    }
+
+    private void actualizarCategoria(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String nc = request.getParameter("id");
+        String nombre = request.getParameter("nombre");
+        String descripcion = request.getParameter("descripcion");
+
+        Categoria cat = new Categoria(Integer.parseInt(nc), nombre, descripcion);
+        CategoriaDAO dao = new CategoriaDAO();
+
+        int registrosModificados = dao.actualizar(cat);
+
+        System.out.println("registros modificados = " + registrosModificados);
+
+        //redirigimos
+        listarCategorias(request, response);
+    }
+
+    private void eliminarCategoria(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        //recuperra el id 
+        int id = Integer.parseInt(request.getParameter("nc"));
+
+        CategoriaDAO dao = new CategoriaDAO();
+        int registrosModificados = dao.eliminar(id);
+
+        System.out.println("registros eliminados = " + registrosModificados);
+
+        listarCategorias(request, response);
+    }
+
     private void Productos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductoDAO dao = new ProductoDAO();
-        List<Producto> productos = dao.listar();
 
-        //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
-        HttpSession sesion = request.getSession();
-        sesion.setAttribute("productos", productos);
-        //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
-        response.sendRedirect("productos.jsp");
+        String accion = request.getParameter("accion");
 
+        if (accion != null) {
+            switch (accion) {
+                case "insertar":
+                    insertarProducto(request, response);
+                    break;
+                case "editar":
+                    editarProducto(request, response);
+                    break;
+                case "modificar":
+                    actualizarProducto(request, response);
+                    break;
+                case "eliminar":
+                    eliminarProducto(request, response);
+                    break;
+                default:
+                    listarProductos(request, response);
+            }
+        } else {
+            listarProductos(request, response);
+        }
     }
 
+    private void insertarProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String nc = request.getParameter("id");
+        String nombre = request.getParameter("nombre");
+        String descripcion = request.getParameter("descripcion");
+        String cantidad = request.getParameter("cantidad");
+        String pcompra = request.getParameter("pcompra");
+        String pventa = request.getParameter("pventa");
+        String presentacion = request.getParameter("presentacion");
+        String categoria = request.getParameter("categoria");
+
+        Producto prod = new Producto(Integer.parseInt(nc), nombre, descripcion, Integer.parseInt(cantidad),
+                Float.parseFloat(pcompra), Float.parseFloat(pventa), presentacion, Integer.parseInt(categoria));
+
+        ProductoDAO dao = new ProductoDAO();
+
+        int registrosModificados = dao.insertar(prod);
+
+        //redirigimos
+        listarProductos(request, response);
+    }
+
+    private void listarProductos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession sesion = request.getSession();
+        ProductoDAO dao = new ProductoDAO();
+
+        List<Producto> productos = dao.listar();
+        sesion.setAttribute("productos", productos);
+
+        response.sendRedirect("productos.jsp");
+    }
+
+    private void editarProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //recuperra el id
+        int id = Integer.parseInt(request.getParameter("nc"));
+
+        //recuperar datos de la base de datos
+        ProductoDAO dao = new ProductoDAO();
+        Producto producto = dao.encontrar(id);
+
+        request.setAttribute("producto", producto);
+        String jspEditar = "/WEB-INF/paginas/editar/editarProducto.jsp";
+        request.getRequestDispatcher(jspEditar).forward(request, response);
+    }
+
+    private void actualizarProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String nc = request.getParameter("id");
+        String nombre = request.getParameter("nombre");
+        String descripcion = request.getParameter("descripcion");
+        String cantidad = request.getParameter("cantidad");
+        String pcompra = request.getParameter("pcompra");
+        String pventa = request.getParameter("pventa");
+        String presentacion = request.getParameter("presentacion");
+        String categoria = request.getParameter("categoria");
+
+        Producto prod = new Producto(Integer.parseInt(nc), nombre, descripcion, Integer.parseInt(cantidad),
+                Float.parseFloat(pcompra), Float.parseFloat(pventa), presentacion, Integer.parseInt(categoria));
+
+        ProductoDAO dao = new ProductoDAO();
+
+        int registrosModificados = dao.actualizar(prod);
+
+        //redirigimos
+        listarProductos(request, response);
+    }
+    private void eliminarProducto(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        //recuperra el id 
+        int id = Integer.parseInt(request.getParameter("nc"));
+
+        ProductoDAO dao = new ProductoDAO();
+        int registrosModificados = dao.eliminar(id);
+
+        System.out.println("registros eliminados = " + registrosModificados);
+
+        listarProductos(request, response);
+    }
+
+    
     private void Inicio(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -186,40 +464,6 @@ public class Controlador extends HttpServlet {
         //sesion.setAttribute("usuariosTotales", usuarios.size());
         //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
         response.sendRedirect("Inicio.jsp");
-    }
-
-    private void editarAlumnos(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //recuperra el id
-        /*
-        int nCAlumno = Integer.parseInt(request.getParameter("nc"));
-        //recuperar datos de la base de datos
-        AlumnoDAO dao = new AlumnoDAO();
-        Alumno alumno = dao.encontrar(nCAlumno);
-        
-        request.setAttribute("alumno", alumno);
-        String jspEditar = "/WEB-INF/paginas/comunes/editarAlumno.jsp";
-        request.getRequestDispatcher(jspEditar).forward(request, response);
-         */
-    }
-
-    private void actualizarAlumno(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        /*
-        String nc = request.getParameter("nc");
-        String nombre = request.getParameter("nombre");
-        String direccion = request.getParameter("direccion");
-        
-        Alumno alum = new Alumno(Integer.parseInt(nc), nombre, direccion);
-        
-        AlumnoDAO dao = new AlumnoDAO();
-        int registrosModificados = dao.actualizar(alum);
-        
-        System.out.println("registros modificados = " + registrosModificados);
-        
-        //redirigimos a la accion por default
-        consultarAlumnos(request, response);
-         */
     }
 
     private void eliminarAlumnos(HttpServletRequest request, HttpServletResponse response)

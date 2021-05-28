@@ -27,16 +27,6 @@
                                     <td>${ventas.getIngreso()}</td> 
                                     <td>${ventas.getTotal()}</td>
                                     <td>${ventas.getId_usuario()}</td>
-                                    <td>
-                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Ventas&accion=editar&nc=${ventas.getId()}"
-                                           class="btn btn-primary btn-block" >
-                                            <i class="fas fa-angle-double-right"></i>Editar
-                                        </a>
-                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Ventas&accion=eliminar&nc=${ventas.getId()}" 
-                                           class="btn btn-secondary btn-block">
-                                            <i class="fas fa-trash"></i> Eliminar
-                                        </a>
-                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>

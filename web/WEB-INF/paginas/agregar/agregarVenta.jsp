@@ -9,7 +9,7 @@
                 </button>
             </div>
 
-            <form action="${pageContext.request.contextPath}/Controlador?accion=insertar" method="POST" class="was-validated">
+            <form action="${pageContext.request.contextPath}/Controlador?pagina=Productos&accion=insertar" method="POST" class="was-validated">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="id">Id</label>

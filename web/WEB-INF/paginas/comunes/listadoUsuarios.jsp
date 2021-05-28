@@ -33,11 +33,11 @@
                                     <td>${usuarios.getCorreo()}</td> 
                                     <td>${usuarios.getTipoUsuario()}</td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/Controlador?accion=editar&nc=${usuarios.getId()}"
+                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Usuarios&accion=editar&nc=${usuarios.getId()}"
                                            class="btn btn-primary btn-block" >
                                             <i class="fas fa-angle-double-right"></i>Editar
                                         </a>
-                                        <a href="${pageContext.request.contextPath}/Controlador?accion=eliminar&nc=${usuarios.getId()}" 
+                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Usuarios&accion=eliminar&nc=${usuarios.getId()}" 
                                            class="btn btn-secondary btn-block">
                                             <i class="fas fa-trash"></i> Eliminar
                                         </a>
