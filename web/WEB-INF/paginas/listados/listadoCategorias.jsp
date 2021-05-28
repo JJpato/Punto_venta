@@ -7,15 +7,14 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Listado de Categorias</h4>
+                        <h4>Listado de Categorias <jsp:include page="/WEB-INF/paginas/botones_modal/boton_agregar_categoria.jsp"/></h4>
                     </div>
                     <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
                                 <th>Nombre</th>
-                                <th>Descripcion</th>
-                                <th></th>                   
+                                <th>Descripcion</th>            
                             </tr>
                         </thead>
                         <tbody>
@@ -57,3 +56,6 @@
         </div>
     </div>
 </section>
+                        
+<!-- Modal agregar Categoria-->
+<jsp:include page="/WEB-INF/paginas/agregar/agregarCategoria.jsp"/>

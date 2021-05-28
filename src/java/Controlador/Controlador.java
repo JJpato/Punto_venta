@@ -140,14 +140,13 @@ public class Controlador extends HttpServlet {
             throws ServletException, IOException {
         UsuarioDAO dao = new UsuarioDAO();
         List<Usuario> usuarios = dao.listar();
-        /*
+
         //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
         HttpSession sesion = (HttpSession) request.getSession();
         sesion.setAttribute("usuarios", usuarios);
         sesion.setAttribute("usuariosTotales", usuarios.size());
-        //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
-        response.sendRedirect("Usuarios.jsp");
-         */
+        response.sendRedirect("usuarios.jsp");
+         
     }
     
     private void Categorias(HttpServletRequest request, HttpServletResponse response)
@@ -170,7 +169,6 @@ public class Controlador extends HttpServlet {
         //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
         HttpSession sesion = request.getSession();
         sesion.setAttribute("productos", productos);
-        sesion.setAttribute("productosTotales", productos.size());
         //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
         response.sendRedirect("productos.jsp");
 
@@ -179,16 +177,15 @@ public class Controlador extends HttpServlet {
     private void Inicio(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UsuarioDAO dao = new UsuarioDAO();
-        List<Usuario> usuarios = dao.listar();
+        VentaDAO dao = new VentaDAO();
+        List<Venta> ventas = dao.listar();
 
         //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
         HttpSession sesion = (HttpSession) request.getSession();
-        sesion.setAttribute("usuarios", usuarios);
-        sesion.setAttribute("usuariosTotales", usuarios.size());
+        sesion.setAttribute("ventas", ventas);
+        //sesion.setAttribute("usuariosTotales", usuarios.size());
         //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
         response.sendRedirect("Inicio.jsp");
-
     }
 
     private void editarAlumnos(HttpServletRequest request, HttpServletResponse response)

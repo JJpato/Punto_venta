@@ -13,8 +13,8 @@ public class ProductoDAO{
     private static final String SQL_INSERT = "INSERT INTO producto VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE producto SET id_producto = ? , nombre = ?, "
             + "descripcion = ?, inventario = ?, precio_compra = ?, precio_venta = ?, "
-            + "presentacion = ?, id_categoria = ? WHERE nc = ?";
-    private static final String SQL_DELETE = "DELETE FROM producto WHERE nc = ?";
+            + "presentacion = ?, id_categoria = ? WHERE id_producto = ?";
+    private static final String SQL_DELETE = "DELETE FROM producto WHERE id_producto = ?";
 
     public List listar() {
         Connection con = null;

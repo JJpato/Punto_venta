@@ -4,10 +4,12 @@
 <section id="productos">
     <div class="container">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Listado de Productos</h4>
+                        
+                        <h4>Listado de Productos <jsp:include page="/WEB-INF/paginas/botones_modal/boton_agregar_producto.jsp"/></h4>
+                        
                     </div>
                     <table class="table table-striped">
                         <thead class="thead-dark">
@@ -15,7 +17,11 @@
                                 <th>#</th>
                                 <th>Nombre</th>
                                 <th>Descripcion</th>
-                                <th></th>                   
+                                <th>Cantidad</th>
+                                <th>Precio Compra</th>
+                                <th>Precio Venta</th>
+                                <th>Presentacion</th>
+                                <th>Categoria</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -26,6 +32,11 @@
                                     <td>${productos.getId()}</td>
                                     <td>${productos.getNombre()}</td> 
                                     <td>${productos.getDescripcion()}</td>
+                                    <td>${productos.getCantidadInventario()}</td>
+                                    <td>${productos.getPrecioDeCompra()}</td> 
+                                    <td>${productos.getPrecioDeVenta()}</td>
+                                    <td>${productos.getPresentacion()}</td> 
+                                    <td>${productos.getIdCategoria()}</td>
                                     <td>
                                         <a href="${pageContext.request.contextPath}/Controlador?pagina=Productos&accion=editar&nc=${productos.getId()}"
                                            class="btn btn-primary btn-block" >
@@ -42,20 +53,10 @@
                     </table>
                 </div>
             </div>
-
-            <!-- Inicio Targetas para los totales-->
-            <div class="col md-3">
-                <div class="card text-center bg-success text-white mb-3">
-                    <div class="card-body">
-                        <h3>Productos Totales totales</h3>
-                        <h4 class="display-4">
-                            <i class="fas fa-users"></i> ${productosTotales}
-                        </h4>
-                    </div>
-                </div>
-            </div>
-            <!-- Cierre Targetas para los totales-->
         </div>
     </div>
 </section>
+
+<!-- Modal agregar producto-->
+<jsp:include page="/WEB-INF/paginas/agregar/agregarProducto.jsp"/>
 

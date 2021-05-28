@@ -5,19 +5,7 @@
             <div class="col-md-3">
                 <a href="#" class="btn btn-primary btn-block" 
                    data-toggle="modal" data-target="#agregarAlumnoModal">
-                    <i class="fas fa-plus"></i> Usuarios
-                </a>
-                <a href="#" class="btn btn-primary btn-block" 
-                   data-toggle="modal" data-target="#agregarAlumnoModal">
-                    <i class="fas fa-plus"></i> Ventas
-                </a>
-                <a href="#" class="btn btn-primary btn-block" 
-                   data-toggle="modal" data-target="#agregarAlumnoModal">
-                    <i class="fas fa-plus"></i> Productos
-                </a>
-                <a href="#" class="btn btn-primary btn-block" 
-                   data-toggle="modal" data-target="#agregarAlumnoModal">
-                    <i class="fas fa-plus"></i> Categorias
+                    <i class="fas fa-plus"></i> Agregar
                 </a>
             </div>
         </div>

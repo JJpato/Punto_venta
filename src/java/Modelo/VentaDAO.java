@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Modelo;
 
 import configuracion.Conexion;
@@ -13,34 +9,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author JJ
- */
-public class CategoriaDAO {
-
-    private static final String SQL_SELECT = "SELECT * FROM categoria";
-    private static final String SQL_SELECT_BY_NC = "SELECT * FROM categoria WHERE id_categoria = ?";
-    private static final String SQL_INSERT = "INSERT INTO categoria VALUES (?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE categoria SET id_categoria = ? , nombre = ?, descripcion = ? WHERE id_categoria = ?";
-    private static final String SQL_DELETE = "DELETE FROM categoria WHERE id_categoria = ?";
+public class VentaDAO {
+    
+    private static final String SQL_SELECT = "SELECT * FROM venta";
+    private static final String SQL_SELECT_BY_NC = "SELECT * FROM venta WHERE id_venta = ?";
+    private static final String SQL_INSERT = "INSERT INTO venta VALUES (?, ?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE venta SET id_venta = ?, "
+            + "ingreso = ?, total = ?, id_usuario = ? WHERE id_venta = ?";
+    private static final String SQL_DELETE = "DELETE FROM venta WHERE id_venta = ?";
 
     public List listar() {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        List<Categoria> categorias = new ArrayList<>();  
+        List<Venta> ventas = new ArrayList<>();  
         
         try{
             con = Conexion.getConexion();
             stmt =  con.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
-            Categoria categoria = null;
+            Venta venta = null;
             
             while(rs.next()){
-                categoria = new Categoria(rs.getInt(1), rs.getString(2), rs.getString(3));
-                categorias.add(categoria);
+                venta = new Venta(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getInt(4));
+                ventas.add(venta);
             }
         }
         catch(SQLException ex){
@@ -51,14 +44,14 @@ public class CategoriaDAO {
             Conexion.cerrar(stmt);
             Conexion.cerrar(con);
         }
-        return categorias;
+        return ventas;
     }
 
-    public Categoria encontrar(int id) {
+    public Venta encontrar(int id) {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Categoria categoria = null;
+        Venta venta=null;        
         try{
             con = Conexion.getConexion();
             stmt = con.prepareStatement(SQL_SELECT_BY_NC);
@@ -67,7 +60,7 @@ public class CategoriaDAO {
             
             rs.absolute(1);
             
-            categoria = new Categoria(rs.getInt(1), rs.getString(2), rs.getString(3));
+            venta = new Venta(rs.getInt(1), rs.getDouble(2), rs.getDouble(3), rs.getInt(4));
         }
         catch(SQLException ex){
             ex.printStackTrace(System.out);
@@ -77,19 +70,20 @@ public class CategoriaDAO {
             Conexion.cerrar(stmt);
             Conexion.cerrar(con);
         }       
-        return categoria;
+        return venta;
     }
 
-    public int insertar(Categoria categoria) {
+    public int insertar(Venta venta) {
         Connection con = null;
         PreparedStatement stmt = null;
         int rows=0;
         try{
             con = Conexion.getConexion();
             stmt = con.prepareStatement(SQL_INSERT);
-            stmt.setInt(1, categoria.getId());
-            stmt.setString(2, categoria.getNombre());
-            stmt.setString(3, categoria.getDescripcion());
+            stmt.setInt(1, venta.getId());
+            stmt.setDouble(2, venta.getIngreso());
+            stmt.setDouble(3, venta.getTotal());
+            stmt.setInt(4, venta.getId_usuario());
             rows = stmt.executeUpdate();
         }
         catch(SQLException ex){
@@ -102,17 +96,18 @@ public class CategoriaDAO {
         return rows;
     }
 
-    public int actualizar(Categoria categoria) {
+    public int actualizar(Venta venta) {
         Connection con = null;
         PreparedStatement stmt = null;
         int rows=0;
         try{
             con = Conexion.getConexion();
             stmt = con.prepareStatement(SQL_UPDATE);
-            stmt.setInt(1, categoria.getId());
-            stmt.setString(2, categoria.getNombre());
-            stmt.setString(3, categoria.getDescripcion());
-            stmt.setInt(4, categoria.getId());
+            stmt.setInt(1, venta.getId());
+            stmt.setDouble(2, venta.getIngreso());
+            stmt.setDouble(3, venta.getTotal());
+            stmt.setInt(4, venta.getId_usuario());
+            stmt.setInt(5, venta.getId());
             rows = stmt.executeUpdate();
         }
         catch(SQLException ex){
@@ -144,6 +139,5 @@ public class CategoriaDAO {
         }       
         return rows;   
     }
-    
+ 
 }
-  

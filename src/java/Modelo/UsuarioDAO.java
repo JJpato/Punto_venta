@@ -13,8 +13,8 @@ public class UsuarioDAO {
     private static final String SQL_INSERT = "INSERT INTO usuario VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE usuario SET id_usuario = ? , nombres = ?, "
             + "apellidos = ?, direccion = ?, telefono = ?, correo = ?, "
-            + "contrasena = ?, tipo_usuario = ? WHERE nc = ?";
-    private static final String SQL_DELETE = "DELETE FROM usuario WHERE nc = ?";
+            + "contrasena = ?, tipo_usuario = ? WHERE id_usuario = ?";
+    private static final String SQL_DELETE = "DELETE FROM usuario WHERE id_usuario = ?";
 
     public List listar() {
         Connection con = null;

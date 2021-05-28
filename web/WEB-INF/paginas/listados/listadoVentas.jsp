@@ -1,17 +1,53 @@
-<%-- 
-    Document   : listadoVentas
-    Created on : 27/05/2021, 08:28:05 AM
-    Author     : JJ
---%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<section id="ventas">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Listado de Ventas <jsp:include page="/WEB-INF/paginas/botones_modal/boton_agregar_venta.jsp"/></h4>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Ingreso</th>
+                                <th>Total</th>
+                                <th>Vendedor</th>               
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!--Iteramos cada elemento de la lista de productos -->
+                            <c:forEach var="ventas" items="${ventas}">
+                                <tr>
+                                    <td>${ventas.getId()}</td>
+                                    <td>${ventas.getIngreso()}</td> 
+                                    <td>${ventas.getTotal()}</td>
+                                    <td>${ventas.getId_usuario()}</td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Ventas&accion=editar&nc=${ventas.getId()}"
+                                           class="btn btn-primary btn-block" >
+                                            <i class="fas fa-angle-double-right"></i>Editar
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/Controlador?pagina=Ventas&accion=eliminar&nc=${ventas.getId()}" 
+                                           class="btn btn-secondary btn-block">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<!-- Modal agregar venta-->
+<jsp:include page="/WEB-INF/paginas/agregar/agregarVenta.jsp"/>
