@@ -8,6 +8,8 @@ package Controlador;
 import Modelo.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -76,6 +78,9 @@ public class Controlador extends HttpServlet {
                 case "Categorias":
                     Categorias(request, response);
                     break;
+                case "Detalles":
+                    Detalles(request, response);
+                    break;
                 default:
                     Inicio(request, response);
             }
@@ -111,12 +116,26 @@ public class Controlador extends HttpServlet {
                 case "Categorias":
                     Categorias(request, response);
                     break;
+                case "Detalles":
+                    Detalles(request, response);
+                    break;
                 default:
                     Inicio(request, response);
             }
         } else {
             Inicio(request, response);
         }
+    }
+
+    private void Detalles(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
+        DetalleVentaDAO dao = new DetalleVentaDAO();
+
+        List<DetalleVenta> detalles = dao.listar();
+        sesion.setAttribute("detalles", detalles);
+
+        response.sendRedirect("DetallesVentas.jsp");
     }
 
     private void Usuarios(HttpServletRequest request, HttpServletResponse response)
@@ -437,6 +456,7 @@ public class Controlador extends HttpServlet {
         //redirigimos
         listarProductos(request, response);
     }
+
     private void eliminarProducto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -451,34 +471,71 @@ public class Controlador extends HttpServlet {
         listarProductos(request, response);
     }
 
-    
     private void Inicio(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String accion = request.getParameter("accion");
+
+        if (accion != null) {
+            switch (accion) {
+                case "insertar":
+                    insertarVenta(request, response);
+                    break;
+                default:
+                    listarVenta(request, response);
+            }
+        } else {
+            listarVenta(request, response);
+        }
+    }
+
+    private void listarVenta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         VentaDAO dao = new VentaDAO();
+        ProductoDAO daoproducto = new ProductoDAO();
         List<Venta> ventas = dao.listar();
+        List<Producto> productos = daoproducto.listar();
 
         //los datos se pierden cuando llamamos a senredirect por eso hacemos una var session para guardarlos por mas tiempo los datos
         HttpSession sesion = (HttpSession) request.getSession();
+        sesion.setAttribute("vent_productos", productos);
         sesion.setAttribute("ventas", ventas);
-        //sesion.setAttribute("usuariosTotales", usuarios.size());
-        //request.getRequestDispatcher("/consultar.jsp").forward(request, response);
         response.sendRedirect("Inicio.jsp");
     }
 
-    private void eliminarAlumnos(HttpServletRequest request, HttpServletResponse response)
+    private void insertarVenta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*
-        //recuperra el id 
-        int nCAlumno = Integer.parseInt(request.getParameter("nc"));
-        
-        AlumnoDAO dao = new AlumnoDAO();
-        int registrosModificados = dao.eliminar(nCAlumno);
-        
-        System.out.println("registros eliminados = " + registrosModificados);
-        
-        consultarAlumnos(request, response);
-         */
+
+        String id = request.getParameter("id");
+        String ingreso = request.getParameter("ingreso");
+        String total = request.getParameter("total");
+        String idusuario = request.getParameter("idusuario");
+        String[] productosVendidos = request.getParameterValues("prod");
+        String[] idProd = request.getParameterValues("id_producto");
+
+        List<String> prodVendidos = new ArrayList<String>();
+        prodVendidos = Arrays.asList(productosVendidos);
+        List<String> idProductos = new ArrayList<String>();
+        idProductos = Arrays.asList(idProd);
+
+        DetalleVenta detalleVenta = null;
+        DetalleVentaDAO daodetalles = new DetalleVentaDAO();
+
+        Venta venta = new Venta(Integer.parseInt(id), Double.parseDouble(ingreso), Double.parseDouble(total), Integer.parseInt(idusuario));
+
+        VentaDAO dao = new VentaDAO();
+
+        int registrosModificados = dao.insertar(venta);
+
+        for (int i = 0; i < prodVendidos.size(); i++) {
+            if (!prodVendidos.get(i).equals("0")) {
+                detalleVenta = new DetalleVenta(Integer.parseInt(id), Integer.parseInt(idProductos.get(i)), Integer.parseInt(prodVendidos.get(i)));
+                daodetalles.insertar(detalleVenta);
+            }
+        }
+
+        //redirigimos
+        listarVenta(request, response);
     }
 
     /**

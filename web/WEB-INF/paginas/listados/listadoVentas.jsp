@@ -20,7 +20,7 @@
                         </thead>
                         <tbody>
 
-                            <!--Iteramos cada elemento de la lista de productos -->
+                            <!--Iteramos cada elemento de la lista -->
                             <c:forEach var="ventas" items="${ventas}">
                                 <tr>
                                     <td>${ventas.getId()}</td>

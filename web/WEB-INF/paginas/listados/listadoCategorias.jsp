@@ -47,7 +47,7 @@
                     <div class="card-body">
                         <h3>Categorias totales</h3>
                         <h4 class="display-4">
-                            <i class="fas fa-users"></i> ${categoriasTotales}
+                            <i class="fab fa-buffer"></i> ${categoriasTotales}
                         </h4>
                     </div>
                 </div>

@@ -11,6 +11,7 @@
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
                             <a class="nav-item nav-link" href="${pageContext.request.contextPath}/Controlador?pagina=Ventas"><h4><i class="fas fa-home"></i>Ventas</h4></a>
+                            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/Controlador?pagina=Detalles"><h4>DetallesVentas</h4></a>
                             <a class="nav-item nav-link" href="${pageContext.request.contextPath}/Controlador?pagina=Usuarios"><h4>Usuarios</h4></a>
                             <a class="nav-item nav-link" href="${pageContext.request.contextPath}/Controlador?pagina=Productos"><h4>Productos</h4></a>
                             <a class="nav-item nav-link" href="${pageContext.request.contextPath}/Controlador?pagina=Categorias"><h4>Categorias</h4></a>
